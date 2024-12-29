@@ -30,6 +30,34 @@ export default function Header() {
       <Button className="w-12 h-10 lg:hidden" color="gray" pill>
         <AiOutlineSearch />
       </Button>
+      <div className="flex gap-2 md:order-2">
+        <Button className="w-12 h-10 hidden sm:inline" color="gray" pill>
+          <FaMoon />
+        </Button>
+        <Link href="/sign-in">
+          <Button gradientDuoTone="purpleToBlue" outline>
+            Sign In
+          </Button>
+        </Link>
+        <Navbar.Toggle />
+      </div>
+      <Navbar.Collapse>
+        <Link href="/">
+          <Navbar.Link active={path === "/"} as={"div"}>
+            Home
+          </Navbar.Link>
+        </Link>
+        <Link href="/about">
+          <Navbar.Link active={path === "/about"} as={"div"}>
+            About
+          </Navbar.Link>
+        </Link>
+        <Link href="/projects">
+          <Navbar.Link active={path === "/projects"} as={"div"}>
+            Projects
+          </Navbar.Link>
+        </Link>
+      </Navbar.Collapse>
     </Navbar>
   );
 }
