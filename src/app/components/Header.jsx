@@ -3,9 +3,12 @@
 import { Button, Navbar, TextInput } from "flowbite-react";
 import Link from "next/link";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
+
 export default function Header() {
+  const { theme, setTheme } = useTheme();
   const path = usePathname();
   return (
     <Navbar className="border-b-2">
@@ -24,15 +27,19 @@ export default function Header() {
           placeholder="Search..."
           rightIcon={AiOutlineSearch}
           className="hidden lg:inline"
-          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
       <Button className="w-12 h-10 lg:hidden" color="gray" pill>
         <AiOutlineSearch />
       </Button>
       <div className="flex gap-2 md:order-2">
-        <Button className="w-12 h-10 hidden sm:inline" color="gray" pill>
-          <FaMoon />
+        <Button
+          className="w-12 h-10 hidden sm:inline"
+          color="gray"
+          pill
+          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+        >
+          {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
         <Link href="/sign-in">
           <Button gradientDuoTone="purpleToBlue" outline>
