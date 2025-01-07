@@ -19,12 +19,22 @@ export const createOrUpdateUser = async (
                     firstName: first_name,
                     lastName: last_name,
                     profilePicture: image_url,
-                    email: email_addresses[0].email_addresses,
-                    username
-                }
-            }
+                    email: email_addresses[0].email_address,
+                    username,
+                },
+            }, { new: true, upsert: true }
         );
+        return user;
     } catch (error) {
+        console.log("Error Creating or updating user", error);
+    }
+};
 
+export const deleteUser = async (id) => {
+    try {
+        await connect();
+        await User.findByIdAndDelete({ clerkId: id });
+    } catch (error) {
+        console.log('Error deleting user:', error);
     }
 };
