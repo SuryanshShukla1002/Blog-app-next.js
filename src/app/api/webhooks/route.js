@@ -1,8 +1,7 @@
 import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { createOrUpdateUser, deleteUser } from '@/lib/actions/user';
-import { clerkClient } from '@clerk/nextjs/server'
-
+import { clerkClient } from '@clerk/nextjs/server';
 
 export async function POST(req) {
     const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -15,7 +14,7 @@ export async function POST(req) {
     const wh = new Webhook(SIGNING_SECRET);
 
     // Get headers
-    const headerPayload = await headers();
+    const headerPayload = await headers();  // Ensure this is awaited
     const svix_id = headerPayload.get('svix-id');
     const svix_timestamp = headerPayload.get('svix-timestamp');
     const svix_signature = headerPayload.get('svix-signature');
@@ -48,7 +47,6 @@ export async function POST(req) {
     }
 
     // Do something with payload
-    // For this guide, log payload to console
     const { id } = evt?.data;
     const eventType = evt?.type;
     console.log(`Received webhook with ID ${id} and event type of ${eventType}`);
@@ -63,7 +61,6 @@ export async function POST(req) {
             email_addresses,
             username
         } = evt?.data;
-
 
         try {
             const user = await createOrUpdateUser(
@@ -85,7 +82,6 @@ export async function POST(req) {
                     });
                 } catch (error) {
                     console.log('Error updating user MetaData:', error);
-
                 }
             }
         } catch (error) {
@@ -103,5 +99,6 @@ export async function POST(req) {
             return new Response('Error occured', { status: 400 });
         }
     }
+
     return new Response('Webhook received', { status: 200 });
 }
